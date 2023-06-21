@@ -28,7 +28,12 @@ export const Extractor = () => {
     (file: File) => {
       setFile(undefined);
       setErrored(false);
-      setFile(file);
+
+      // Give the UI a chance to update before we run this potentially
+      // long process
+      Promise.resolve().then(
+        () => setFile(file),
+      )
     },
     []
   )
