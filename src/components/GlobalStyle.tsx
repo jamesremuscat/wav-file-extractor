@@ -18,4 +18,9 @@ export const GlobalStyle = createGlobalStyle`
   -webkit-text-size-adjust: 100%;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 `;

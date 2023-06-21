@@ -1,14 +1,19 @@
 import { GlobalStyle } from './components/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { Theme } from './theme';
+import { Container } from './components/Container';
+import { Content } from './components/Content';
+import { Extractor } from './components/Extractor';
 
 function App() {
   return (
     <ThemeProvider theme={Theme}>
       <GlobalStyle />
-      <div>
-        Content here soon™
-      </div>
+      <Container>
+        <Content>
+          <Extractor />
+        </Content>
+      </Container>
     </ThemeProvider>
   );
 }

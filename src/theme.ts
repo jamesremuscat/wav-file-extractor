@@ -3,5 +3,7 @@ export const Theme = {
     family: '"TT Norms Pro", sans-serif',
     color: '#FFFFFF'
   },
-  backgroundColor: '#111420'
+  backgroundColor: '#111420',
+  borderColor: '#222633',
+  headingColor: '#363946'
 }
