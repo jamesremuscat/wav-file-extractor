@@ -11,9 +11,6 @@ type InnerProps = {
 }
 
 const Inner = styled(Pane)<InnerProps>`
-
-  flex-grow: 1;
-
   display: flex;
   flex-direction: column;
 
@@ -48,6 +45,7 @@ export const DropTarget = ({ isProcessing, onFileDropped }: Props) => {
 
   return (
     <Inner
+      grow={1}
       {...dropzone.getRootProps()}
       $isActive={dropzone.isDragActive}
       $isProcessing={isProcessing}
