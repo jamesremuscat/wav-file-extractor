@@ -20,6 +20,18 @@ describe('parseWav', () => {
     const parsed = parseWav(sampleFile);
 
     expect(parsed.chunkID).toEqual('RIFF');
+    expect(parsed.chunkSize).toEqual(20643910);
+
+    const fmt = parsed.format;
+
+    expect(fmt.subchunk1ID).toEqual('fmt ');
+    expect(fmt.subchunk1Size).toEqual(16);
+    expect(fmt.audioFormat).toEqual(1);
+    expect(fmt.numChannels).toEqual(2);
+    expect(fmt.sampleRate).toEqual(44100);
+    expect(fmt.byteRate).toEqual(176400);
+    expect(fmt.blockAlign).toEqual(4);
+    expect(fmt.bitsPerSample).toEqual(16);
   });
 
 });
