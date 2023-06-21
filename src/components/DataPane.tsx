@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { parseWav, type WavFile } from '../modules/parser';
-import { styled } from 'styled-components';
 import { Heading } from './Heading';
 import { Table, TableHeader } from './Table';
 import { ObjectTable } from './ObjectTable';
+import { Pane } from './Pane';
 
 interface Props {
   file?: File,
+  onError: () => void,
   setProcessing: (processing: boolean) => void
 }
 
@@ -16,17 +17,7 @@ async function parse(file: File) {
   return parsed;
 }
 
-const Inner = styled.div`
-
-  flex-grow: 2;
-
-  border: 0.5em solid ${props => props.theme?.borderColor};
-  margin-top: 0.5em;
-  background-color: ${props => props.theme?.borderColor};
-
-`;
-
-export const DataPane = ({ file, setProcessing }: Props) => {
+export const DataPane = ({ file, onError, setProcessing }: Props) => {
   const [parsedFile, setParsedFile] = useState<WavFile>();
 
   useEffect(
@@ -34,14 +25,18 @@ export const DataPane = ({ file, setProcessing }: Props) => {
       if (file) {
         setProcessing(true);
         parse(file).then(
-          (pf) => {
-            setParsedFile(pf);
-            setProcessing(false);
-          }
+          setParsedFile
+        ).catch(
+          onError
+        ).finally(
+          () => setProcessing(false)
         )
       }
+      else {
+        setParsedFile(undefined);
+      }
     },
-    [file, setProcessing]
+    [file, onError, setProcessing]
   );
 
   if (!parsedFile) {
@@ -49,7 +44,7 @@ export const DataPane = ({ file, setProcessing }: Props) => {
   }
 
   return (
-    <Inner>
+    <Pane grow={2}>
       <Heading>Results</Heading>
       <Table>
         <colgroup>
@@ -71,6 +66,6 @@ export const DataPane = ({ file, setProcessing }: Props) => {
           object={parsedFile.fmt}
         />
       </Table>
-    </Inner>
+    </Pane>
   );
 }

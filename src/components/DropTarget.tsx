@@ -3,15 +3,14 @@ import { useDropzone } from 'react-dropzone';
 import { Heading } from './Heading';
 import { useCallback } from 'react';
 import { styled } from 'styled-components';
+import { Pane } from './Pane';
 
 type InnerProps = {
   $isActive: boolean,
   $isProcessing: boolean
 }
 
-const Inner = styled.div<InnerProps>`
-
-  border: 0.5em solid ${props => props.theme?.borderColor};
+const Inner = styled(Pane)<InnerProps>`
 
   flex-grow: 1;
 
