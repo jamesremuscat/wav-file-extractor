@@ -28,8 +28,9 @@ describe('parseWav', () => {
 
     expect(parsed.chunkID).toEqual('RIFF');
     expect(parsed.chunkSize).toEqual(20643910);
+    expect(parsed.format).toEqual('WAVE');
 
-    const fmt = parsed.format;
+    const fmt = parsed.fmt;
 
     expect(fmt.subchunk1ID).toEqual('fmt ');
     expect(fmt.subchunk1Size).toEqual(16);

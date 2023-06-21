@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { parseWav, type WavFile } from '../modules/parser';
 import { styled } from 'styled-components';
+import { Heading } from './Heading';
+import { Table, TableHeader } from './Table';
+import { ObjectTable } from './ObjectTable';
 
 interface Props {
   file?: File
@@ -14,7 +17,11 @@ async function parse(file: File) {
 
 const Inner = styled.div`
 
-  flex-grow: 3;
+  flex-grow: 2;
+
+  border: 0.5em solid ${props => props.theme?.borderColor};
+  margin-top: 0.5em;
+  background-color: ${props => props.theme?.borderColor};
 
 `;
 
@@ -30,9 +37,33 @@ export const DataPane = ({ file }: Props) => {
     [file]
   );
 
+  if (!parsedFile) {
+    return null;
+  }
+
   return (
     <Inner>
-      <p>{parsedFile?.chunkID}</p>
+      <Heading>Results</Heading>
+      <Table>
+        <colgroup>
+          <col style={{ width: '50%' }} />
+          <col style={{ width: '50%' }} />
+        </colgroup>
+        <thead>
+          <tr>
+            <TableHeader>Header</TableHeader>
+            <TableHeader>Value</TableHeader>
+          </tr>
+        </thead>
+        <ObjectTable
+          blacklist={['fmt']}
+          object={parsedFile}
+        />
+        <ObjectTable
+          blacklist={['subchunk1Size', 'extraParamsSize', 'extraParams']}
+          object={parsedFile.fmt}
+        />
+      </Table>
     </Inner>
   );
 }

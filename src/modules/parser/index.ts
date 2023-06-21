@@ -3,7 +3,8 @@ import { Parser } from 'binary-parser';
 export interface WavFile {
   chunkID: string,
   chunkSize: number,
-  format: FormatChunk
+  format: string,
+  fmt: FormatChunk
 }
 
 interface FormatChunk {
@@ -45,7 +46,7 @@ const WavParser = new Parser()
     assert: 'WAVE',
     length: 4
   })
-  .nest('format', { type: FmtParser });
+  .nest('fmt', { type: FmtParser });
 
 export function parseWav(wav: ArrayBuffer): WavFile {
   // There's an error in the type definitions for the binary-parser library

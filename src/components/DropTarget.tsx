@@ -10,12 +10,12 @@ type InnerProps = {
 
 const Inner = styled.div<InnerProps>`
 
+  border: 0.5em solid ${props => props.theme?.borderColor};
+
   flex-grow: 1;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   text-transform: uppercase;
 
@@ -23,6 +23,11 @@ const Inner = styled.div<InnerProps>`
 
   font-weight: ${ props => props.$isActive ? 'bold' : 'normal' };
 
+`;
+
+const Message = styled.div`
+  align-self: center;
+  margin: auto;
 `;
 
 interface Props {
@@ -41,19 +46,17 @@ export const DropTarget = ({ onFileDropped }: Props) => {
   const dropzone = useDropzone({ onDrop });
 
   return (
-    <>
+    <Inner
+      {...dropzone.getRootProps()}
+      $isActive={dropzone.isDragActive}
+    >
       <Heading>WAV File Extractor</Heading>
-      <Inner
-        {...dropzone.getRootProps()}
-        $isActive={dropzone.isDragActive}
-      >
-        <input {...dropzone.getInputProps()} />
-        {
-          dropzone.isDragActive ?
-            <p>Drop here</p> :
-            <p>Drag file</p>
-        }
-      </Inner>
-    </>
+      <input {...dropzone.getInputProps()} />
+      {
+        dropzone.isDragActive ?
+          <Message>Drop here</Message> :
+          <Message>Drag file</Message>
+      }
+    </Inner>
   );
 }
