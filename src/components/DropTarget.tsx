@@ -5,7 +5,8 @@ import { useCallback } from 'react';
 import { styled } from 'styled-components';
 
 type InnerProps = {
-  $isActive: boolean
+  $isActive: boolean,
+  $isProcessing: boolean
 }
 
 const Inner = styled.div<InnerProps>`
@@ -21,7 +22,7 @@ const Inner = styled.div<InnerProps>`
 
   background-color: ${ props => props.$isActive ? props.theme?.borderColor : 'transparent' };
 
-  font-weight: ${ props => props.$isActive ? 'bold' : 'normal' };
+  font-weight: ${ props => props.$isActive || props.$isProcessing ? 'bold' : 'normal' };
 
 `;
 
@@ -31,10 +32,11 @@ const Message = styled.div`
 `;
 
 interface Props {
+  isProcessing?: boolean,
   onFileDropped?: (f: File) => void
 }
 
-export const DropTarget = ({ onFileDropped }: Props) => {
+export const DropTarget = ({ isProcessing, onFileDropped }: Props) => {
 
   const onDrop = useCallback(
     (files: File[]) => {
@@ -49,10 +51,12 @@ export const DropTarget = ({ onFileDropped }: Props) => {
     <Inner
       {...dropzone.getRootProps()}
       $isActive={dropzone.isDragActive}
+      $isProcessing={isProcessing}
     >
       <Heading>WAV File Extractor</Heading>
       <input {...dropzone.getInputProps()} />
       {
+        isProcessing ? <Message>File dropped</Message> :
         dropzone.isDragActive ?
           <Message>Drop here</Message> :
           <Message>Drag file</Message>

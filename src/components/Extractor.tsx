@@ -12,11 +12,18 @@ const Inner = styled.div`
 export const Extractor = () => {
 
   const [file, setFile] = useState<File>();
+  const [isProcessing, setProcessing] = useState<boolean>(false);
 
   return (
     <Inner>
-      <DropTarget onFileDropped={setFile} />
-      <DataPane file={file} />
+      <DropTarget
+        isProcessing={isProcessing}
+        onFileDropped={setFile}
+      />
+      <DataPane
+        file={file}
+        setProcessing={setProcessing}
+      />
     </Inner>
   );
 }

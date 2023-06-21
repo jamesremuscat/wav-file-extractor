@@ -6,7 +6,8 @@ import { Table, TableHeader } from './Table';
 import { ObjectTable } from './ObjectTable';
 
 interface Props {
-  file?: File
+  file?: File,
+  setProcessing: (processing: boolean) => void
 }
 
 async function parse(file: File) {
@@ -25,16 +26,22 @@ const Inner = styled.div`
 
 `;
 
-export const DataPane = ({ file }: Props) => {
+export const DataPane = ({ file, setProcessing }: Props) => {
   const [parsedFile, setParsedFile] = useState<WavFile>();
 
   useEffect(
     () => {
       if (file) {
-        parse(file).then(setParsedFile)
+        setProcessing(true);
+        parse(file).then(
+          (pf) => {
+            setParsedFile(pf);
+            setProcessing(false);
+          }
+        )
       }
     },
-    [file]
+    [file, setProcessing]
   );
 
   if (!parsedFile) {
