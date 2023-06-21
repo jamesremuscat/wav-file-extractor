@@ -7,33 +7,52 @@ export interface WavFile {
   fmt: FormatChunk
 }
 
+interface ExtraParams {
+  size: number,
+  data: unknown
+}
+
+const ExtraParamsParser = new Parser()
+  .endianess('little')
+  .int16('size')
+  .array('data', { type: 'int8', length: 'size' });
+
 interface FormatChunk {
-  subchunk1ID: string,
-  subchunk1Size: number,
+  subChunkID: string,
+  subChunkSize: number,
   audioFormat: number,
   numChannels: number,
   sampleRate: number,
   byteRate: number,
   blockAlign: number,
   bitsPerSample: number,
-  extraParamsSize: number
+  extraParams?: ExtraParams
 }
 
 const FmtParser = new Parser()
   .endianess('little')
-  .string('subchunk1ID', {
+  .string('subChunkID', {
     assert: 'fmt ',
     length: 4
   })
-  .int32('subchunk1Size')
+  .int32('subChunkSize')
   .int16('audioFormat')
   .int16('numChannels')
   .int32('sampleRate')
   .int32('byteRate')
   .int16('blockAlign')
   .int16('bitsPerSample')
-  .int16('extraParamsSize')
-  .array('extraParams', { type: 'int8', length: 'extraParamsSize' });
+  .choice(
+    'extraParams',
+    {
+      tag: 'audioFormat',
+      choices: {
+        1: new Parser() // No further parsing to do if format = 1 (PCM)
+      },
+      defaultChoice: ExtraParamsParser // Otherwise parse extra parameters
+    }
+  )
+
 
 const WavParser = new Parser()
   .endianess('little')
