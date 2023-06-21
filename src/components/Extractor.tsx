@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 import { DropTarget } from './DropTarget';
+import { useState } from 'react';
+import { DataPane } from './DataPane';
 
 const Inner = styled.div`
   border: 0.5em solid ${props => props.theme?.borderColor};
@@ -9,9 +11,13 @@ const Inner = styled.div`
 `;
 
 export const Extractor = () => {
+
+  const [file, setFile] = useState<File>();
+
   return (
     <Inner>
-      <DropTarget />
+      <DropTarget onFileDropped={setFile} />
+      <DataPane file={file} />
     </Inner>
   );
 }

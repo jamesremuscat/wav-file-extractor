@@ -1,6 +1,6 @@
 import { Parser } from 'binary-parser';
 
-interface WavFile {
+export interface WavFile {
   chunkID: string,
   chunkSize: number,
   format: FormatChunk
@@ -47,6 +47,10 @@ const WavParser = new Parser()
   })
   .nest('format', { type: FmtParser });
 
-export function parseWav(wav: Buffer): WavFile {
-  return WavParser.parse(wav);
+export function parseWav(wav: ArrayBuffer): WavFile {
+  // There's an error in the type definitions for the binary-parser library
+  // that cause TypeScript to flag this as an error; but in fact the parse()
+  // method is happy to take either a Buffer or a Uint8Array.
+  // @ts-ignore
+  return WavParser.parse(new Uint8Array(wav));
 }

@@ -25,14 +25,18 @@ const Inner = styled.div<InnerProps>`
 
 `;
 
-export const DropTarget = () => {
+interface Props {
+  onFileDropped?: (f: File) => void
+}
+
+export const DropTarget = ({ onFileDropped }: Props) => {
 
   const onDrop = useCallback(
     (files: File[]) => {
-      console.log(files)
+      onFileDropped?.(files[0])
     },
-    []
-  )
+    [onFileDropped]
+  );
 
   const dropzone = useDropzone({ onDrop });
 
