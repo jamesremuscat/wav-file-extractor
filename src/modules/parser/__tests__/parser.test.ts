@@ -14,6 +14,13 @@ describe('parseWav', () => {
     ).toThrowError('RIFF');
   });
 
+  it('fails on a non-wav file', () => {
+    const sampleFile = Buffer.from('PK\x03\x04');
+    expect(
+      () => parseWav(sampleFile)
+    ).toThrowError('RIFF');
+  })
+
   it('parses the sample file included with this exercise', () => {
     const sampleFile = fs.readFileSync(`${__dirname}/champion-80bpm-132686.wav`);
 
