@@ -2,6 +2,9 @@
 
 ![Netlify](https://img.shields.io/netlify/1755123c-d13f-418e-9cda-2d9bd7874329)
 
+A simple app to extract and display metadata from WAV files. Drag and drop one
+into the app to show its metadata.
+
 ## Online demo
 
 [Online demo running on Netlify](https://clever-torte-37e944.netlify.app/)
