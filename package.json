@@ -10,8 +10,9 @@
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "cypress": "cypress run",
-    "e2etest": "start-server-and-test dev http://localhost:5173 cypress"
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
+    "e2etest": "start-server-and-test dev http://localhost:5173 cypress:run"
   },
   "dependencies": {
     "binary-parser": "^2.2.1",

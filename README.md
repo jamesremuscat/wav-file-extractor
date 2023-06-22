@@ -14,6 +14,19 @@ yarn && yarn run dev
 
 ## Running tests
 
+To run unit tests:
+
 ```shell
 yarn run test
 ```
+
+To start a dev server and run end-to-end tests in Cypress:
+
+```shell
+yarn run e2etest
+```
+
+To run e2e tests on an existing dev server (one started with `yarn run dev`):
+
+- `yarn run cypress:run` to run the tests in the CLI
+- `yarn run cypress:open` to open the Cypress UI
