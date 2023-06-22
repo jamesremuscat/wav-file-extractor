@@ -56,7 +56,7 @@ export const DropTarget = ({ isProcessing, onFileDropped }: Props) => {
         isProcessing ? <Message>File dropped</Message> :
         dropzone.isDragActive ?
           <Message>Drop here</Message> :
-          <Message>Drag file</Message>
+          <Message data-test-id='dropTarget'>Drag file</Message>
       }
     </Inner>
   );
